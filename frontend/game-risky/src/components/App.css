@@ -23,7 +23,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+/*
 .App-link {
   color: #61dafb;
 }
@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.main-route-place {
+  border: 1px solid  #bb8fce;
+  margin:3px;
+  padding: 5px;
+}
+
+.secondary-route-place {
+  border: 1px solid #a2d9ce;
+  margin: 5px;
+  padding: 5px;
+}*/
