@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const userRoute = require('./models/User')
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const userRoute = require('./routes/user.routes')
 const confronts = require('./confronts.json');
-
 
 //appel de MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/risky')
@@ -14,13 +15,30 @@ mongoose.connect('mongodb://127.0.0.1:27017/risky')
         console.error('Error connecting to mongo', err.reason)
     })
 
-//appel de Express
+const port = process.env.PORT || 8000
+app.listen(port, () => {
+    console.log('Listening on port ' + port)
+})
 
-app.listen(8080, () => {
-    console.log("Serveur à l'écoute")
-});
 
 app.use(express.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: false,
+    }),
+)
+app.use(cors());
+
+app.get('/', (req, res) => {
+    res.send('invalid endpoint')
+})
+
+// error handler
+app.use(function (err, req, res, next) {
+    console.error(err.message)
+    if (!err.statusCode) err.statusCode = 500
+    res.status(err.statusCode).send(err.message)
+})
 
 app.get('/confronts', (req,res) => {
     res.status(200).json(confronts)
@@ -36,5 +54,10 @@ app.post('/confronts', (req,res) => {
     confronts.push(req.body)
     res.status(200).json(confronts)
 })
+
+
+//User API
+app.use('/api', userRoute)
+
 
 module.exports = app;

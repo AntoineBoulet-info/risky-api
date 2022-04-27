@@ -3,7 +3,8 @@ const app = express();
 const userRoute = express.Router();
 let User = require('../models/User');
 // Add User
-userRoute.route('/add-user').post((req, res, next) => {
+/*
+userRoute.route('/sign-up').post((req, res, next) => {
     User.create(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -12,6 +13,33 @@ userRoute.route('/add-user').post((req, res, next) => {
         }
     })
 });
+*/
+
+userRoute.post('/sign-up', (req, res, next) => {
+    delete req.body._id;
+    const user = new User({
+        ...req.body
+    });
+    user.save()
+        .then(() => res.status(201).json({ message: 'Objet User enregistré !', user}))
+        .catch(error => res.status(400).json({ error }));
+});
+
+userRoute.use('/users', (req, res, next) => {
+    User.find()
+        .then(users => res.status(200).json(users))
+        .catch(error => res.status(400).json({ error }));
+});
+
+/*userRoute.route('/login').post((req, res, next) => {
+    User.find(req.body, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+});*/
 
 
 
