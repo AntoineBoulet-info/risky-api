@@ -16,3 +16,5 @@ exec(`python3 ./../../hackagames/game-risky/simplePlayer.py`, (error, stdout, st
     console.log(test);
     console.log(player);
 });
+
+export const res = test + player;
