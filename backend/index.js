@@ -4,7 +4,6 @@ const app = express();
 const userRoute = require('./models/User')
 const confronts = require('./confronts.json');
 
-
 //appel de MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/risky')
     .then((x) => {
@@ -20,9 +19,10 @@ app.listen(8080, () => {
     console.log("Serveur à l'écoute")
 });
 
+
 app.use(express.json());
 
-app.get('/confronts', (req,res) => {
+app.get('/api/confronts', (req,res) => {
     res.status(200).json(confronts)
 })
 
