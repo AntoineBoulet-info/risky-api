@@ -1,3 +1,19 @@
+async function launchGame(){
+    const { exec } = require("child_process");
+
+    exec("./../../hackagames/game-risky/hg-risky-hidden", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+    });
+}
+
 async function IA1(){
     const { exec } = require("child_process");
     exec(`python3 ./../../hackagames/game-risky/simplePlayer.py`, (error, stdout, stderr) => {
@@ -9,7 +25,17 @@ async function IA1(){
             console.log(`stderr: ${stderr}`);
             return;
         }
-        traitement(stdout);
+        var output = stdout;
+        var test = output.substring(output.indexOf('Final')+8).replace(' ', '').replace('\n','');
+        if(parseInt(test)==1 ){
+            test =  "Gagné";
+        } else if (parseInt(test)==-1){
+            test = "Perdu";
+        }
+        var player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
+        var res = player + " => " + test;
+        console.log(res);
+        return `{ player: ${player}, result: ${test}`;
     });
 }
 
@@ -24,30 +50,24 @@ async function IA2(){
             console.log(`stderr: ${stderr}`);
             return;
         }
-        return traitement(stdout);
-    });
-}
-
-async function traitement(string){
-    var output = string;
-        var test = output.substring(output.indexOf('Final')+8).replace(' ', '').replace('\n','');
+        let output = stdout;
+        let test = output.substring(output.indexOf('Final')+8).replace(' ', '').replace('\n','');
         if(parseInt(test)==1 ){
             test =  "Gagné";
         } else if (parseInt(test)==-1){
             test = "Perdu";
         }
-        var player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
-        return test + '/' + player;
-}
-
-async function showData(res1, res2){
-    console.log(res1,res2);
+        let player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
+        var res = player + " => " + test;
+        console.log(res);
+        return res;
+    });
 }
 
 async function run(){
-    let res= await IA1();
-    let res2 = await IA2();
-    showData(res,res2);
+    await launchGame();
+    await IA1();
+    await IA2();
     /*var obj = {
         table: []
     };
