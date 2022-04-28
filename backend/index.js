@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const userRoute = require('./routes/user.routes')
 const IA1 = require('./IA1.json');
 const IA2 = require('./IA2.json');
+const history = require('./history.json');
 
 //appel de MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/risky')
@@ -51,7 +52,9 @@ app.get('/api/IA1', (req,res) => {
 app.get('/api/IA2', (req,res) => {
     res.status(200).json(IA2)
 })
-
+app.get('/api/history', (req,res) => {
+    res.status(200).json(history)
+})
 
 //User API
 app.use('/api', userRoute)

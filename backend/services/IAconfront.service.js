@@ -38,6 +38,10 @@ async function IA1(){
         var player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
         var res = player + " => " + test;
         console.log(res);
+        if(test != "Gagné" && test != "Perdu"){
+            console.log(test);
+            return;
+        }
         var obj = {
             table: []
          };
@@ -46,12 +50,10 @@ async function IA1(){
          fs.writeFile ("IA1.json", JSON.stringify(obj), function(err) {
             if (err) throw err;
             console.log('complete');
-            }
-        );
+        });
         return `{ player: ${player}, result: ${test}`;
-    });
-    
-}
+    }
+)}
 
 async function IA2(){
     const { exec } = require("child_process");
@@ -74,6 +76,10 @@ async function IA2(){
         let player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
         var res = player + " => " + test;
         console.log(res);
+        if(test != "Gagné" && test != "Perdu"){
+            console.log(test);
+            return;
+        }
         var obj = {
             table: []
          };
@@ -92,6 +98,7 @@ async function run(){
     await launchGame();
     await IA1();
     await IA2();
+    await historyJson();
     /*var obj = {
         table: []
     };
@@ -102,4 +109,69 @@ async function run(){
     fs.writeFile('confronts.json', json, 'utf8', callback);*/
 }
 
+async function historyJson(){
+    var obj = {
+        table: []
+     };
+     var obj2 = {
+        table: []
+     };
+     var fs = require('fs');
+    fs.readFile('history.json', 'utf8', function readFileCallback(err, data){
+        if (err){
+            console.log(err);
+        } else {
+            obj = JSON.parse(data); //now it an object
+            fs.readFile('IA1.json', 'utf8', function readFileCallback(err, data2){
+                obj2 = JSON.parse(data2);
+                var joueur = obj2.table[0].joueur;
+                var resultat = obj2.table[0].result;
+                if (joueur != "player 1" && joueur != "player 2" && resultat != "Gagné" && resultat != "Perdu"){
+                    console.log("Failed  " + joueur);
+                    return;
+                }
+                var date =obj2.table[0].date;
+                obj.table.push({joueur: joueur, result: resultat, date: date}); //add some data
+                fs.writeFile('history.json', JSON.stringify(obj), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                }
+                )
+            });}
+            
+    });
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < 5000);
+    var obj3 = {
+        table: []
+     };
+     var obj4 = {
+        table: []
+     };
+    fs.readFile('history.json', 'utf8', function readFileCallback(err, data3){
+        if (err){
+            console.log(err);
+        } else {
+            obj3 = JSON.parse(data3); //now it an object
+            fs.readFile('IA2.json', 'utf8', function readFileCallback(err, data4){
+                obj4 = JSON.parse(data4);
+                var joueur = obj4.table[0].joueur;
+                var resultat = obj4.table[0].result;
+                if (joueur != "player 1" && joueur != "player 2" && resultat != "Gagné" && resultat != "Perdu"){
+                    console.log("Failed  " + joueur);
+                    return;
+                }
+                var date =obj4.table[0].date;
+                obj3.table.push({joueur: joueur, result: resultat, date: date}); //add some data
+                fs.writeFile('history.json', JSON.stringify(obj3), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                }
+                )
+            });}
+            
+    });
+}
 run();
