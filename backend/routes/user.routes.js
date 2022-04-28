@@ -31,7 +31,7 @@ userRoute.use('/users', (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 });
 
-/*userRoute.route('/login').post((req, res, next) => {
+userRoute.route('/login').post((req, res, next) => {
     User.find(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -39,12 +39,12 @@ userRoute.use('/users', (req, res, next) => {
             res.json(data)
         }
     })
-});*/
+});
 
 
 
 // Get all User
-userRoute.route('/').get((req, res) => {
+userRoute.route('/users').get((req, res) => {
     User.find((error, data) => {
         if (error) {
             return next(error)
@@ -54,7 +54,7 @@ userRoute.route('/').get((req, res) => {
     })
 })
 // Get User
-userRoute.route('/read-User/:id').get((req, res) => {
+userRoute.route('/user-profile/:id').get((req, res) => {
     User.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)

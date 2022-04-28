@@ -4,6 +4,9 @@ let User = new Schema({
     id: {
         type: Number
     },
+    username: {
+        type: String
+    },
     email: {
         type: String
     },
@@ -13,4 +16,13 @@ let User = new Schema({
 }, {
     collection: 'users'
 })
+
+User.method("toJSON", function() {
+        const { __v, _id, ...object } = this.toObject();
+        object.id = _id;
+        return object;
+});
+
+
+
 module.exports = mongoose.model('User', User)
