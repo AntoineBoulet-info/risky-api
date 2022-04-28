@@ -1,5 +1,4 @@
 const { exec } = require("child_process");
-const path= "../../hackagames/game-risky/";
 
 exec(`python3 ./../../hackagames/game-risky/simplePlayer.py`, (error, stdout, stderr) => {
     if (error) {
@@ -11,10 +10,12 @@ exec(`python3 ./../../hackagames/game-risky/simplePlayer.py`, (error, stdout, st
         return;
     }
     var output = stdout;
-    var test = output.substring(output.indexOf('Final'));
-    var player = output.substring(output.indexOf('turn')-1, output.indexOf('player'));
-    console.log(test);
-    console.log(player);
+    var test = output.substring(output.indexOf('Final')+8).replace(' ', '').replace('\n','');
+    if(parseInt(test)==1 ){
+        test =  "Gagné";
+    } else {
+        test = "Perdu";
+    }
+    var player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
+    console.log(test + '/'+player);
 });
-
-export const res = test + player;

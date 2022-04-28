@@ -21,6 +21,7 @@ app.listen(port, () => {
 })
 
 
+
 app.use(express.json());
 app.use(
     bodyParser.urlencoded({
@@ -42,7 +43,7 @@ app.use(function (err, req, res, next) {
     res.status(err.statusCode).send(err.message)
 })
 
-app.get('/confronts', (req,res) => {
+app.get('/api/confronts', (req,res) => {
     res.status(200).json(confronts)
 })
 
