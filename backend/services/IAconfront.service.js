@@ -1,3 +1,6 @@
+const moment = require('moment')
+
+
 async function launchGame(){
     const { exec } = require("child_process");
 
@@ -35,8 +38,19 @@ async function IA1(){
         var player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
         var res = player + " => " + test;
         console.log(res);
+        var obj = {
+            table: []
+         };
+         obj.table.push({joueur: player, result: test, date: moment().format('MMMM Do YYYY, h:mm:ss a')});
+         var fs = require('fs');
+         fs.writeFile ("IA1.json", JSON.stringify(obj), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
         return `{ player: ${player}, result: ${test}`;
     });
+    
 }
 
 async function IA2(){
@@ -60,6 +74,16 @@ async function IA2(){
         let player = output.substring(output.indexOf('turn')-1, output.indexOf('player')).replace('"', '').replace('-', ' ');
         var res = player + " => " + test;
         console.log(res);
+        var obj = {
+            table: []
+         };
+         obj.table.push({joueur: player, result: test, date: moment().format('MMMM Do YYYY, h:mm:ss a')});
+         var fs = require('fs');
+         fs.writeFile ("IA2.json", JSON.stringify(obj), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
         return res;
     });
 }
