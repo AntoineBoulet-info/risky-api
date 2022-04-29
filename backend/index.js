@@ -23,16 +23,13 @@ app.listen(port, () => {
 })
 
 
-
 app.use(express.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: false,
-    }),
-)
+app.use(bodyParser.urlencoded({
+    extended: false,
+}),)
 app.use(cors());
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
     res.send('invalid endpoint')
@@ -45,14 +42,14 @@ app.use(function (err, req, res, next) {
     res.status(err.statusCode).send(err.message)
 })
 
-app.get('/api/IA1', (req,res) => {
+app.get('/api/IA1', (req, res) => {
     res.status(200).json(IA1)
 })
 
-app.get('/api/IA2', (req,res) => {
+app.get('/api/IA2', (req, res) => {
     res.status(200).json(IA2)
 })
-app.get('/api/history', (req,res) => {
+app.get('/api/history', (req, res) => {
     res.status(200).json(history)
 })
 

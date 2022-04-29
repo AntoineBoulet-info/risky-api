@@ -21,14 +21,14 @@ userRoute.post('/sign-up', (req, res, next) => {
         ...req.body
     });
     user.save()
-        .then(() => res.status(201).json({ message: 'Objet User enregistré !', user}))
-        .catch(error => res.status(400).json({ error }));
+        .then(() => res.status(201).json({message: 'Objet User enregistré !', user}))
+        .catch(error => res.status(400).json({error}));
 });
 
 userRoute.use('/users', (req, res, next) => {
     User.find()
         .then(users => res.status(200).json(users))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({error}));
 });
 
 userRoute.route('/login').post((req, res, next) => {
@@ -40,7 +40,6 @@ userRoute.route('/login').post((req, res, next) => {
         }
     })
 });
-
 
 
 // Get all User

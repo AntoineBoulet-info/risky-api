@@ -1,4 +1,4 @@
-const { exec } = require("child_process");
+const {exec} = require("child_process");
 
 exec("./../../hackagames/game-risky/hg-risky-hidden", (error, stdout, stderr) => {
     if (error) {

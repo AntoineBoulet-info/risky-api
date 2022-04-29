@@ -17,12 +17,11 @@ let User = new Schema({
     collection: 'users'
 })
 
-User.method("toJSON", function() {
-        const { __v, _id, ...object } = this.toObject();
-        object.id = _id;
-        return object;
+User.method("toJSON", function () {
+    const {__v, _id, ...object} = this.toObject();
+    object.id = _id;
+    return object;
 });
-
 
 
 module.exports = mongoose.model('User', User)

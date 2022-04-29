@@ -1,4 +1,4 @@
-const { exec } = require("child_process");
+const {exec} = require("child_process");
 
 exec("telnet localhost 14001", (error, stdout, stderr) => {
     if (error) {
